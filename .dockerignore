@@ -68,6 +68,7 @@ runtime/
 
 # Desktop app source (Tauri/Electron); never installed in the container
 apps/
+!apps/bootstrap-installer/**
 
 # Test suite — not shipped in production images
 tests/
