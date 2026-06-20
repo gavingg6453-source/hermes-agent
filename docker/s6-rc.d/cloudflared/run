@@ -1,0 +1,19 @@
+#!/command/with-contenv sh
+# shellcheck shell=sh
+# Cloudflare quick-tunnel service. Exposes the Hermes HTTP API (port
+# 8080) to a public *.trycloudflare.com URL with no Cloudflare account
+# or DNS setup required. The URL changes on every container restart —
+# check the s6 service log / Railway deploy log for the printed URL.
+#
+# Opt-in via HERMES_CLOUDFLARED, same convention as the dashboard
+# service's HERMES_DASHBOARD gate.
+case "${HERMES_CLOUDFLARED:-}" in
+    1|true|TRUE|True|yes|YES|Yes) ;;
+    *)
+        exit 0
+        ;;
+esac
+export HOME=/opt/data
+cd /opt/data
+cf_port="${HERMES_CLOUDFLARED_PORT:-8080}"
+exec cloudflared tunnel --url "http://localhost:${cf_port}" --no-autoupdate
