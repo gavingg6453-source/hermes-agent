@@ -1,5 +1,6 @@
 #!/command/with-contenv sh
 # shellcheck shell=sh
+echo "DEBUG cloudflared: HERMES_CLOUDFLARED is [${HERMES_CLOUDFLARED:-UNSET}]" >&2
 # Cloudflare quick-tunnel service. Exposes the Hermes HTTP API (port
 # 8080) to a public *.trycloudflare.com URL with no Cloudflare account
 # or DNS setup required. The URL changes on every container restart —
