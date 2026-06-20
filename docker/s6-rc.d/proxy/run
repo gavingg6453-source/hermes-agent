@@ -1,0 +1,15 @@
+#!/command/with-contenv sh
+# shellcheck shell=sh
+# OpenAI-compatible proxy for external apps (e.g. Obsidian BMO Chatbot).
+# Opt-in via HERMES_PROXY, same convention as dashboard/cloudflared.
+case "${HERMES_PROXY:-}" in
+    1|true|TRUE|True|yes|YES|Yes) ;;
+    *)
+        exit 0
+        ;;
+esac
+export HOME=/opt/data
+cd /opt/data
+proxy_port="${HERMES_PROXY_PORT:-8645}"
+proxy_provider="${HERMES_PROXY_PROVIDER:-nous}"
+exec hermes proxy start --provider "$proxy_provider" --host 0.0.0.0 --port "$proxy_port"
